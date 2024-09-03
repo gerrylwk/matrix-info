@@ -37,7 +37,7 @@ patterns = analyze_matrix(M)
 ```
 
 ## Background
-In the line of my work, I came across a problem where I had to store information pertaining to every cell in a 2-dimensional matrix. Upon the need for retrieval, I had to check what information resides in that particular cell. This unique problem slowly spurred an interest in me as I began to think of random ways where this can be implemented.
+In the line of my work, I came across a problem where I had to store information pertaining to every cell in a 2-dimensional matrix. Upon the need for retrieval, I had to check what information resides in that particular cell. I started to get interested in this problem as it can be extended to store all types of categorical information, e.g. strings/funcs/data structures.
 
 ## Updates
-3/9/2024: Initial repo created. Helper functions to create and debug matrices added.
+3/9/2024: Initial repo created. Helper functions to create and visualise matrices added.
