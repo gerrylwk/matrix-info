@@ -1,5 +1,6 @@
 import numpy as np
 from visualise import visualizer_text, visualizer_colour
+from typing import List
 
 
 def create_matrix(rows, cols):
@@ -13,8 +14,15 @@ def add_information(matrix, row, col, information_value):
     matrix[row, col] |= information_value
 
 
+# Function to check if information is present in the cell
 def has_information(matrix, row, col, information_value):
     return (matrix[row, col] & information_value) != 0
+
+
+# Function to generate an index:category dictionary
+def generate_categorical_dict(lst: List):
+    categorical_map = {i: v for i, v in enumerate(lst)}
+    return categorical_map
 
 
 if __name__ == "__main__":
