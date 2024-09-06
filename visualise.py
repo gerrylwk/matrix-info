@@ -49,9 +49,6 @@ def visualizer_colour(matrix):
     """
     VIsualizer for larger matrix, only uses colour for representation, no text drawn
     """
-    # Example 1080 by 1920 matrix with random integer values
-    matrix = np.random.randint(0, 100, size=(1080, 1920))
-
     # Create the plot
     fig, ax = plt.subplots(figsize=(12, 7))  # Adjust the figure size as needed
     cax = ax.matshow(matrix, cmap="viridis")  # Use a perceptually uniform colormap
