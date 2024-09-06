@@ -1,5 +1,10 @@
 # 🧩 Matrix Information Storage: Test Script Collection
 
+## Requirements
+```python
+pip install numpy shapely rasterio matplotlib
+```
+
 ## Problem Statement
 
 Given a 2D matrix of size `m x n`, where each cell represents different types of categorical information, write scripts that:
@@ -37,7 +42,7 @@ patterns = analyze_matrix(M)
 ```
 
 ## Background
-In the line of my work, I came across a problem where I had to store information pertaining to every cell in a 2-dimensional matrix. Upon the need for retrieval, I had to check what information resides in that particular cell. I started to get interested in this problem as it can be extended to store all types of categorical information, e.g. strings/funcs/data structures.
+Came across a problem where I had to store information pertaining to every cell in a 2-dimensional matrix. Upon the need for retrieval, there is a need to check for information residing in a particular cell. I started to get interested in this problem as it can be extended to store all types of categorical information, e.g. strings/funcs/data structures.
 
 ## Updates
 3/9/2024: Initial repo created. Helper functions to create and visualise matrices added.
