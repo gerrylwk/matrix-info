@@ -10,6 +10,7 @@ from create_matrix import (
     has_information,
     generate_categorical_dict,
     create_categorical_matrix,
+    create_categorical_matrix2,
 )
 
 
@@ -53,21 +54,38 @@ def generate_random_polygon(
 
 
 if __name__ == "__main__":
+    import time
+    import numpy as np
 
-    height, width = 50, 50
-    num_categories = 5
-    categories = generate_random_strings(N=num_categories, length=5)
-    categorical_map = generate_categorical_dict(categories)
+    time_list_1 = []
+    time_list_2 = []
+    for i in range(10):
+        height, width = 480, 720
+        num_categories = 5
+        categories = generate_random_strings(N=num_categories, length=5)
+        categorical_map = generate_categorical_dict(categories)
 
-    category_coordinates = {
-        i: coordinate_string_to_tuple_array(
-            generate_random_polygon(num_categories, height, width)
+        category_coordinates = {
+            i: coordinate_string_to_tuple_array(
+                generate_random_polygon(num_categories, height, width)
+            )
+            for i in categorical_map
+        }
+        start = time.time()
+        cat_value_to_category_id, category_id_to_cat_value, matrix = (
+            create_categorical_matrix(category_coordinates, height, width)
         )
-        for i in categorical_map
-    }
-    cat_value_to_category_id, category_id_to_cat_value, matrix = (
-        create_categorical_matrix(category_coordinates, height, width)
-    )
+        time_list_1.append(time.time() - start)
+        start = time.time()
+        cat_value_to_category_id, category_id_to_cat_value, matrix = (
+            create_categorical_matrix2(category_coordinates, height, width)
+        )
+        time_list_2.append(time.time() - start)
 
-    print(f"All possible categorical matrix values: {cat_value_to_category_id.keys()}")
-    visualizer_colour(matrix)
+        # print(
+        #     f"All possible categorical matrix values: {cat_value_to_category_id.keys()}"
+        # )
+        # visualizer_colour(matrix)
+
+    print(f"Np.add method took {np.mean(time_list_1)} seconds.")
+    print(f"Bitshift method took {np.mean(time_list_2)} seconds.")
