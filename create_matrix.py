@@ -10,9 +10,36 @@ def create_matrix(rows, cols):
 
 
 # Function to add information to a matrix cell
-def add_information(matrix, row, col, information_value):
+def add_information(matrix, coordinates, information_value):
     # NOTE: Context here is that we are storing information using bits.
-    matrix[row, col] |= information_value
+    rows, cols = coordinates
+    if isinstance(rows, int) and isinstance(cols, int):
+        matrix[rows, cols] |= information_value  # Single coordinate case
+    else:
+        rows, cols = coordinates
+        matrix[rows, cols] |= information_value
+
+
+def find_powers_of_two(value):
+    """
+    Find which powers of 2 sum up to the given value using bit encoding.
+
+    Args:
+    - value: Integer value that is a sum of multiples of 2.
+
+    Returns:
+    - A list of integers representing the powers of 2 that sum up to the value.
+    """
+    powers_of_two = []
+    power = 0
+
+    while value > 0:
+        if value & 1:  # Check if the lowest bit is set
+            powers_of_two.append(2**power)
+        value >>= 1  # Right shift to check the next bit
+        power += 1
+
+    return powers_of_two
 
 
 # Function to check if information is present in the cell
@@ -45,16 +72,15 @@ def create_categorical_matrix(category_coordinates_map: Dict, rows: int, cols: i
 
         # create mask for zone
         mask = create_mask(polygon_coordinates, rows, cols)
+        visualizer_colour(mask)
 
         # Fills the INSIDE of the polygon mask with the specified value
         filled_indices = np.where(mask)
-        filled_coordinates = list(zip(filled_indices[0], filled_indices[1]))
 
         # mark frame matrix with zone value of view_zone. If category_id's index = 2, then value on matrix would be cur_value + 2**i
-        for coords in filled_coordinates:
-            # Value of 1 represents background zone
-            # This value replaced as soon as there is a proper zone with View Zone ID
-            add_information(matrix, coords[0], coords[1], cat_value)
+        # Value of 1 represents background zone
+        # This value replaced as soon as there is a proper zone with View Zone ID
+        add_information(matrix, filled_indices, cat_value)
 
         # For visualisation
         # from PIL import Image
@@ -82,10 +108,10 @@ if __name__ == "__main__":
     # Example usage
     matrix = create_matrix(3, 3)
     # Assume information 1, 2, 3 correspond to bit values 1, 2, and 4 respectively.
-    add_information(matrix, 0, 0, 1)  # Add Information 1
-    add_information(matrix, 0, 0, 2)  # Add Information 2
-    add_information(matrix, 1, 1, 4)  # Add Information 3
-    add_information(matrix, 0, 0, 10)
+    add_information(matrix, [0, 0], 1)  # Add Information 1. Matrix value = 1
+    add_information(matrix, [0, 0], 2)  # Add Information 2. Matrix value = 2
+    add_information(matrix, [1, 1], 4)  # Add Information 3. Matrix value = 4
+    add_information(matrix, [0, 0], 10)  # Add Information 4. Matrix value = 8
 
     visualizer_text(matrix)
 
@@ -98,3 +124,11 @@ if __name__ == "__main__":
     # NOTE: Checking for info 3 requires you to check for value 2^(3-1) = 4
     info_3_present = has_information(matrix, 1, 1, 4)
     print(f"Information 3 present in cell (1, 1): {info_3_present}")
+
+    # Check which powers of 2 are present in matrix[1,1]
+    powers_present = find_powers_of_two(matrix[1, 1])
+    print(f"Powers of 2 present in cell (1, 1): {powers_present}")
+
+    powers_present = find_powers_of_two(matrix[0, 0])
+    # Check which powers of 2 are present in matrix[0,0]
+    print(f"Powers of 2 present in cell (0, 0): {powers_present}")
